@@ -1,0 +1,84 @@
+# ==========================================================================
+# Decap CMS — configuratie HappyNurse Doetinchem
+# Recruiters beheren hiermee vacatures zonder code. Decap slaat elke vacature
+# op als markdown-bestand in de GitHub-repo; Vercel deployt automatisch.
+#
+# LOGIN: e-mail + wachtwoord via Netlify Identity + Git Gateway (optie B).
+# Recruiters hebben GEEN GitHub-account nodig. Zie SETUP-ADMIN.md voor de
+# eenmalige instelstappen.
+# ==========================================================================
+
+backend:
+  name: git-gateway
+  branch: main          # de branch waarop Vercel deployt
+  commit_messages:
+    create: "Vacature toegevoegd: {{slug}}"
+    update: "Vacature bijgewerkt: {{slug}}"
+    delete: "Vacature verwijderd: {{slug}}"
+
+# Lokaal testen zonder login: draai `npx decap-server` en open /admin
+local_backend: true
+
+media_folder: "assets/uploads"      # waar geüploade afbeeldingen worden bewaard
+public_folder: "/assets/uploads"
+
+# Nederlandse interface
+locale: "nl"
+
+collections:
+  - name: "vacatures"
+    label: "Vacatures"
+    label_singular: "Vacature"
+    folder: "content/vacatures"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{functietitel}} — {{locatie}} ({{sector}})"
+    sortable_fields: ["datum_geplaatst", "functietitel", "sector"]
+    view_filters:
+      - label: "Sector: VVT"
+        field: sector
+        pattern: "VVT"
+      - label: "Sector: GGZ"
+        field: sector
+        pattern: "GGZ"
+      - label: "Alleen online"
+        field: status
+        pattern: "online"
+    fields:
+      - { name: "functietitel", label: "Functietitel", widget: "string", hint: "Bijv. Verzorgende IG" }
+      - name: "sector"
+        label: "Sector"
+        widget: "select"
+        options: ["VVT", "GGZ", "GHZ", "Ziekenhuis"]
+      - { name: "locatie", label: "Locatie (plaats)", widget: "string", hint: "Bijv. Doetinchem, Arnhem, Winterswijk" }
+      - { name: "regio", label: "Regio", widget: "string", default: "Achterhoek", hint: "Voor het regiofilter op de site" }
+      - name: "vestiging"
+        label: "Vestiging"
+        widget: "select"
+        options: ["Doetinchem", "Utrecht"]
+        default: "Doetinchem"
+      - { name: "uren", label: "Uren", widget: "string", hint: "Bijv. 16–32 uur" }
+      - name: "opleidingsniveau"
+        label: "Opleidingsniveau"
+        widget: "select"
+        multiple: true
+        options: ["MBO 2", "MBO 3", "MBO 4", "HBO"]
+      - name: "dienstverband"
+        label: "Dienstverband"
+        widget: "select"
+        multiple: true
+        options: ["Flexibel loondienst", "ZZP"]
+      - { name: "salaris_min", label: "Salaris min (€ p/m)", widget: "number", value_type: "int", min: 0 }
+      - { name: "salaris_max", label: "Salaris max (€ p/m)", widget: "number", value_type: "int", min: 0 }
+      - { name: "intro", label: "Korte intro", widget: "text", hint: "1–2 zinnen die bovenaan de vacature komen" }
+      - { name: "taken", label: "Wat ga je doen?", widget: "list", field: { name: "item", label: "Taak", widget: "string" } }
+      - { name: "profiel", label: "Wat vragen we?", widget: "list", field: { name: "item", label: "Eis", widget: "string" } }
+      - { name: "omschrijving", label: "Uitgebreide omschrijving (optioneel)", widget: "markdown", required: false }
+      - { name: "datum_geplaatst", label: "Datum geplaatst", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, default: "" }
+      - { name: "geldig_tot", label: "Geldig tot", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - name: "status"
+        label: "Status"
+        widget: "select"
+        options: ["online", "gearchiveerd"]
+        default: "online"
+        hint: "Zet op 'gearchiveerd' om de vacature offline te halen"

@@ -1,0 +1,12 @@
+{
+  "name": "happynurse-doetinchem",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Werkenbij-site HappyNurse Doetinchem — statische HTML met Decap CMS",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3"
+  }
+}

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Vacature — HappyNurse Doetinchem</title>
+<meta id="metaDesc" name="description" content="Bekijk deze zorgvacature bij HappyNurse Doetinchem.">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+.detail-hero { background: var(--hn-green-50); padding-block: clamp(28px, 4vw, 44px) clamp(36px, 5vw, 56px); }
+.breadcrumb { display:flex; gap:8px; align-items:center; font-size:.9rem; color:var(--ink-mute); margin-bottom:20px; flex-wrap:wrap; }
+.breadcrumb a:hover { color:var(--hn-green); }
+.breadcrumb svg { width:15px; height:15px; }
+.detail-hero h1 { font-size: clamp(2rem, 4.4vw, 3.1rem); max-width: 20ch; }
+.detail-chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+
+.detail-layout { display:grid; grid-template-columns: 1fr 360px; gap:48px; align-items:start; }
+.prose h2 { font-size:1.5rem; margin-top:38px; margin-bottom:14px; }
+.prose h2:first-child { margin-top:0; }
+.prose p { color:var(--ink-soft); }
+.prose ul { list-style:none; padding:0; margin:0; display:grid; gap:13px; }
+.prose ul li { display:flex; gap:13px; align-items:flex-start; color:var(--ink); }
+.prose ul li .tick { width:26px; height:26px; border-radius:50%; background:var(--hn-green-100); color:var(--hn-green); display:grid; place-items:center; flex-shrink:0; margin-top:1px; }
+.prose ul li .tick svg { width:15px; height:15px; }
+
+.facts {
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); padding:26px;
+  position:sticky; top:96px;
+}
+.facts h3 { font-size:1.15rem; margin-bottom:18px; }
+.fact-row { display:flex; justify-content:space-between; gap:16px; padding:12px 0; border-top:1px solid var(--line-soft); font-size:.96rem; }
+.fact-row:first-of-type { border-top:none; }
+.fact-row .k { color:var(--ink-mute); display:flex; align-items:center; gap:9px; }
+.fact-row .k svg { width:17px; height:17px; color:var(--hn-green); }
+.fact-row .v { font-family:var(--font-head); font-weight:600; color:var(--hn-green-dark); text-align:right; }
+.facts .btn { width:100%; margin-top:22px; }
+
+.recruiter-card { background:var(--hn-green-dark); color:#fff; border-radius:var(--r-lg); padding:24px; margin-top:18px; }
+.recruiter-card h3 { color:#fff; font-size:1.05rem; }
+.recruiter-top { display:flex; gap:14px; align-items:center; margin-bottom:14px; }
+.recruiter-avatar { width:52px; height:52px; border-radius:50%; background:var(--hn-green); display:grid; place-items:center; font-family:var(--font-head); font-weight:700; font-size:1.2rem; color:#fff; flex-shrink:0; }
+.recruiter-card p { color:#B8DDD1; font-size:.92rem; }
+.recruiter-card a.rc-phone { display:flex; align-items:center; gap:10px; margin-top:16px; font-family:var(--font-head); font-weight:600; color:#fff; }
+.recruiter-card a.rc-phone svg { width:18px; height:18px; }
+
+.salary-highlight { background:var(--hn-green-100); border-radius:var(--r-md); padding:16px 18px; margin-bottom:20px; }
+.salary-highlight small { color:var(--hn-accent); font-weight:600; font-size:.8rem; text-transform:uppercase; letter-spacing:.04em; }
+.salary-highlight b { display:block; font-family:var(--font-head); font-size:1.5rem; color:var(--hn-green-dark); margin-top:2px; }
+
+.related { background:var(--paper-warm); border-top:1px solid var(--line-soft); }
+
+@media (max-width: 880px) {
+  .detail-layout { grid-template-columns: 1fr; }
+  .facts { position:static; }
+}
+</style>
+</head>
+<body>
+<div data-header="vacatures"></div>
+
+<main id="content"></main>
+
+<section class="section related" id="relatedSection" hidden>
+  <div class="wrap">
+    <div class="section-head"><span class="kicker">Meer vacatures</span><h2>Misschien ook iets voor jou</h2></div>
+    <div class="grid grid-3 mt-m" id="relatedVacancies"></div>
+  </div>
+</section>
+
+<div data-footer></div>
+
+<!-- JobPosting schema markup wordt hier door JS geïnjecteerd -->
+<script type="application/ld+json" id="jobposting-jsonld"></script>
+
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+  const v = window.getVacancyById(id);
+  const content = document.getElementById("content");
+
+  if (!v) {
+    content.innerHTML =
+      '<section class="section"><div class="wrap center">' +
+      '<h1>Vacature niet gevonden</h1>' +
+      '<p class="lead mt-s">Deze vacature bestaat niet meer of is offline gehaald.</p>' +
+      '<a class="btn mt-m" href="vacatures.html">Bekijk alle vacatures</a>' +
+      '</div></section>';
+    return;
+  }
+
+  // Titles & meta
+  document.getElementById("pageTitle").textContent = v.title + " in " + v.locatie + " — HappyNurse Doetinchem";
+  document.getElementById("metaDesc").setAttribute("content", v.intro.slice(0, 155));
+
+  const li = arr => arr.map(t =>
+    '<li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>' + t + '</span></li>'
+  ).join("");
+
+  const fmtDate = d => new Date(d).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
+
+  content.innerHTML = '' +
+  '<section class="detail-hero"><div class="wrap">' +
+    '<nav class="breadcrumb">' +
+      '<a href="index.html">Home</a>' + ICON.arrow +
+      '<a href="vacatures.html">Vacatures</a>' + ICON.arrow +
+      '<span>' + v.title + '</span>' +
+    '</nav>' +
+    '<span class="chip" data-sector="' + v.sector + '"><span class="dot"></span>' + v.sector + '</span>' +
+    '<h1 class="mt-s">' + v.title + ' in ' + v.locatie + '</h1>' +
+    '<div class="detail-chips">' +
+      '<span class="chip" style="--chip-bg:#fff;--chip-fg:var(--ink-soft)">' + ICON.pin + ' ' + v.regio + '</span>' +
+      '<span class="chip" style="--chip-bg:#fff;--chip-fg:var(--ink-soft)">' + ICON.clock + ' ' + v.uren + '</span>' +
+      '<span class="chip" style="--chip-bg:#fff;--chip-fg:var(--ink-soft)">' + ICON.cap + ' ' + v.niveau + '</span>' +
+    '</div>' +
+  '</div></section>' +
+
+  '<section class="section"><div class="wrap detail-layout">' +
+    '<article class="prose">' +
+      '<div class="ph" style="aspect-ratio:16/7;border-radius:var(--r-lg);margin-bottom:36px;"><span class="ph__label">[ foto: ' + v.sector + ' / ' + v.locatie + ' — sfeerbeeld ]</span></div>' +
+      '<h2>Over deze functie</h2>' +
+      '<p>' + v.intro + '</p>' +
+      (v.omschrijving ? v.omschrijving.split(/\n{2,}/).map(function (p) { return '<p>' + p.replace(/\n/g, '<br>') + '</p>'; }).join('') : '') +
+      '<h2>Wat ga je doen?</h2>' +
+      '<ul>' + li(v.taken) + '</ul>' +
+      '<h2>Wat vragen we van je?</h2>' +
+      '<ul>' + li(v.profiel) + '</ul>' +
+      '<h2>Wat bieden we jou?</h2>' +
+      '<ul>' + li([
+        "Een salaris van " + v.salaris + ", o.b.v. ervaring en uren",
+        "Zelf je diensten kiezen via de HappyOne app",
+        "Gratis opleidingen en bijscholing via HappyCampus",
+        "Je eigen vaste recruiter in de Achterhoek — altijd bereikbaar"
+      ]) + '</ul>' +
+    '</article>' +
+
+    '<aside>' +
+      '<div class="facts">' +
+        '<div class="salary-highlight"><small>Salarisindicatie</small><b>' + v.salaris + '</b></div>' +
+        '<h3>In het kort</h3>' +
+        '<div class="fact-row"><span class="k">' + ICON.pin + 'Locatie</span><span class="v">' + v.locatie + '</span></div>' +
+        '<div class="fact-row"><span class="k">' + ICON.clock + 'Uren</span><span class="v">' + v.uren + '</span></div>' +
+        '<div class="fact-row"><span class="k">' + ICON.cap + 'Niveau</span><span class="v">' + v.niveau + '</span></div>' +
+        '<div class="fact-row"><span class="k">' + ICON.doc + 'Dienstverband</span><span class="v">' + v.dienstverband + '</span></div>' +
+        '<div class="fact-row"><span class="k">' + ICON.heart + 'Sector</span><span class="v">' + v.sector + '</span></div>' +
+        '<a class="btn" href="solliciteren.html?functie=' + encodeURIComponent(v.title) + '">Solliciteer op deze functie</a>' +
+        '<p class="muted" style="font-size:.82rem;margin-top:14px;text-align:center;">Geplaatst op ' + fmtDate(v.datePosted) + ' · geldig t/m ' + fmtDate(v.validThrough) + '</p>' +
+      '</div>' +
+      '<div class="recruiter-card">' +
+        '<div class="recruiter-top"><span class="recruiter-avatar">S</span><div><h3>Sanne — jouw recruiter</h3><p>HappyNurse Doetinchem</p></div></div>' +
+        '<p>Vragen over deze functie? Bel of app me gerust. Geen callcenter, gewoon persoonlijk contact.</p>' +
+        '<a class="rc-phone" href="tel:+31314760210">' + ICON.phone + '0314 - 76 02 10</a>' +
+      '</div>' +
+    '</aside>' +
+  '</div></section>';
+
+  // ===== Google Jobs JSON-LD (JobPosting schema) =====
+  const jsonld = {
+    "@context": "https://schema.org/",
+    "@type": "JobPosting",
+    "title": v.title,
+    "description": "<p>" + v.intro + "</p><p><strong>Wat ga je doen?</strong></p><ul>" +
+      v.taken.map(t => "<li>" + t + "</li>").join("") + "</ul><p><strong>Wat vragen we?</strong></p><ul>" +
+      v.profiel.map(t => "<li>" + t + "</li>").join("") + "</ul>",
+    "identifier": { "@type": "PropertyValue", "name": "HappyNurse Doetinchem", "value": v.id },
+    "datePosted": v.datePosted,
+    "validThrough": v.validThrough,
+    "employmentType": v.employmentType,
+    "hiringOrganization": {
+      "@type": "Organization",
+      "name": "HappyNurse Doetinchem",
+      "sameAs": "https://happynurse-doetinchem.nl",
+      "logo": "https://happynurse-doetinchem.nl/logo.png"
+    },
+    "jobLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": v.locatie,
+        "addressRegion": v.addressRegion,
+        "addressCountry": "NL"
+      }
+    },
+    "baseSalary": {
+      "@type": "MonetaryAmount",
+      "currency": "EUR",
+      "value": {
+        "@type": "QuantitativeValue",
+        "minValue": v.salarisMin,
+        "maxValue": v.salarisMax,
+        "unitText": "MONTH"
+      }
+    }
+  };
+  document.getElementById("jobposting-jsonld").textContent = JSON.stringify(jsonld, null, 2);
+
+  // Related vacancies (other than current)
+  const related = window.VACANCIES.filter(x => x.id !== v.id).slice(0, 3);
+  if (related.length) {
+    document.getElementById("relatedSection").hidden = false;
+    document.getElementById("relatedVacancies").innerHTML = related.map(vacancyCardHTML).join("");
+  }
+})();
+</script>
+</body>
+</html>
