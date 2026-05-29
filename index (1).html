@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HappyNurse Doetinchem — Liever werken in de zorg in de Achterhoek</title>
+<meta name="description" content="Werken in de zorg in Doetinchem, Arnhem, Zevenaar en de hele Achterhoek. Persoonlijk contact, zelf je diensten kiezen en gratis opleidingen via HappyCampus. Liever HappyNurse!">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+/* ===== Hero ===== */
+.hero { position: relative; background: var(--hn-green-50); overflow: hidden; }
+.hero::after {
+  content: ""; position: absolute; top: -160px; right: -160px;
+  width: 520px; height: 520px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--hn-green-200), transparent 70%);
+  opacity: .7; pointer-events: none;
+}
+.hero__inner {
+  display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 5vw, 72px);
+  align-items: center; padding-block: clamp(48px, 7vw, 92px);
+  position: relative; z-index: 1;
+}
+.hero h1 { font-size: clamp(2.4rem, 5.2vw, 4rem); }
+.hero h1 .hl { color: var(--hn-green); }
+.hero__sub { margin-top: 22px; max-width: 46ch; }
+.hero__cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+.hero__trust { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 30px; color: var(--ink-soft); font-size: .95rem; }
+.hero__trust span { display: inline-flex; align-items: center; gap: 9px; font-weight: 600; }
+.hero__trust svg { width: 20px; height: 20px; color: var(--hn-green); }
+
+.hero__art { position: relative; }
+.hero__photo { aspect-ratio: 4/5; min-height: 380px; border-radius: var(--r-xl); }
+.hero__badge {
+  position: absolute; bottom: 24px; left: -28px;
+  background: #fff; border-radius: var(--r-lg); padding: 18px 22px;
+  box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 14px;
+  max-width: 250px;
+}
+.hero__badge .ico { width: 46px; height: 46px; border-radius: 14px; background: var(--hn-green); color:#fff; display:grid; place-items:center; flex-shrink:0; }
+.hero__badge .ico svg { width: 24px; height: 24px; }
+.hero__badge b { font-family: var(--font-head); color: var(--hn-green-dark); display:block; }
+.hero__badge small { color: var(--ink-soft); font-size: .82rem; }
+.hero__chip-float {
+  position: absolute; top: 26px; right: -18px;
+  background:#fff; box-shadow: var(--shadow-md); border-radius: var(--r-pill);
+  padding: 10px 18px; font-family: var(--font-head); font-weight:600; color: var(--hn-green-dark);
+  display:flex; align-items:center; gap:8px; font-size:.92rem;
+}
+.hero__chip-float .pulse { width:10px; height:10px; border-radius:50%; background:var(--hn-green); box-shadow:0 0 0 0 rgba(29,158,117,.5); animation: pulse 2s infinite; }
+@keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(29,158,117,.5)} 70%{box-shadow:0 0 0 12px rgba(29,158,117,0)} 100%{box-shadow:0 0 0 0 rgba(29,158,117,0)} }
+
+/* ===== Sector tiles ===== */
+.sectors { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.sector-tile {
+  position: relative; border-radius: var(--r-lg); padding: 26px 24px 22px;
+  background: var(--st-bg); overflow: hidden; min-height: 168px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.sector-tile:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.sector-tile h3 { color: var(--st-fg); font-size: 1.45rem; }
+.sector-tile p { color: var(--st-fg); opacity: .82; font-size: .92rem; margin-top: 6px; }
+.sector-tile .st-link { display:inline-flex; align-items:center; gap:7px; margin-top:14px; font-family:var(--font-head); font-weight:600; color:var(--st-fg); font-size:.92rem; }
+.sector-tile .st-link svg { width:18px; height:18px; }
+.sector-tile .st-glyph {
+  position:absolute; right:-12px; bottom:-12px; width:96px; height:96px; border-radius:50%;
+  background: var(--st-fg); opacity:.1;
+}
+.sector-tile[data-s="VVT"]        { --st-bg: var(--sector-vvt-bg); --st-fg: var(--sector-vvt); }
+.sector-tile[data-s="GGZ"]        { --st-bg: var(--sector-ggz-bg); --st-fg: var(--sector-ggz); }
+.sector-tile[data-s="GHZ"]        { --st-bg: var(--sector-ghz-bg); --st-fg: var(--sector-ghz); }
+.sector-tile[data-s="Ziekenhuis"] { --st-bg: var(--sector-zkh-bg); --st-fg: var(--sector-zkh); }
+
+/* ===== USP ===== */
+.usp-band { background: var(--hn-green-dark); color: #fff; border-radius: var(--r-xl); padding: clamp(36px, 5vw, 64px); }
+.usp-band h2 { color: #fff; }
+.usp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 40px; }
+.usp { }
+.usp .num { font-family: var(--font-head); font-weight: 700; font-size: 1.1rem; color: var(--hn-green); width:44px; height:44px; border-radius:14px; background: rgba(255,255,255,.1); display:grid; place-items:center; }
+.usp h3 { color: #fff; font-size: 1.18rem; margin-top: 18px; }
+.usp p { color: #B8DDD1; margin-top: 8px; font-size: .96rem; }
+
+/* ===== HappyCampus ===== */
+.campus { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: center; }
+.campus__photo { aspect-ratio: 5/4; border-radius: var(--r-xl); min-height: 320px; }
+.campus__list { list-style:none; padding:0; margin: 26px 0 0; display:grid; gap:14px; }
+.campus__list li { display:flex; gap:13px; align-items:flex-start; }
+.campus__list .tick { width:26px; height:26px; border-radius:50%; background: var(--hn-green-100); color: var(--hn-green); display:grid; place-items:center; flex-shrink:0; margin-top:2px; }
+.campus__list .tick svg { width:15px; height:15px; }
+
+/* ===== Closing CTA ===== */
+.closer {
+  background: var(--hn-green); color:#fff; border-radius: var(--r-xl);
+  padding: clamp(40px, 6vw, 80px); text-align:center; position:relative; overflow:hidden;
+}
+.closer::before { content:""; position:absolute; inset:0; background: radial-gradient(circle at 80% 120%, rgba(255,255,255,.16), transparent 60%); }
+.closer > * { position:relative; }
+.closer h2 { color:#fff; font-size: clamp(2rem, 4vw, 3rem); }
+.closer p { color: rgba(255,255,255,.9); max-width: 52ch; margin: 18px auto 0; font-size: 1.12rem; }
+.closer .hero__cta { justify-content:center; }
+
+@media (max-width: 920px) {
+  .hero__inner { grid-template-columns: 1fr; }
+  .hero__art { max-width: 460px; }
+  .sectors { grid-template-columns: repeat(2, 1fr); }
+  .usp-grid { grid-template-columns: repeat(2, 1fr); }
+  .campus { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .sectors { grid-template-columns: 1fr; }
+  .usp-grid { grid-template-columns: 1fr; }
+  .hero__badge { left: 0; }
+}
+</style>
+</head>
+<body>
+<div data-header="home"></div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="wrap hero__inner">
+    <div>
+      <span class="kicker">Werken in de zorg · Achterhoek &amp; Liemers</span>
+      <h1 class="mt-s">Liever <span class="hl">HappyNurse</span> in de Achterhoek</h1>
+      <p class="lead hero__sub">Persoonlijk contact met je eigen recruiter, zelf kiezen wanneer je werkt en gratis blijven ontwikkelen. Vind jouw plek in Doetinchem, Arnhem, Zevenaar en omgeving.</p>
+      <div class="hero__cta">
+        <a class="btn btn--lg" href="vacatures.html">Bekijk alle vacatures</a>
+        <a class="btn btn--ghost btn--lg" href="solliciteren.html">Open sollicitatie</a>
+      </div>
+      <div class="hero__trust" id="heroTrust"></div>
+    </div>
+    <div class="hero__art">
+      <div class="ph hero__photo"><span class="ph__label">[ foto: lachende zorgmedewerker — Doetinchem ]</span></div>
+      <div class="hero__chip-float"><span class="pulse"></span>Nieuwe diensten elke week</div>
+      <div class="hero__badge">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.6 2Z"/></svg></span>
+        <span><b>Je eigen recruiter</b><small>Geen callcenter — gewoon Sanne, die je regio kent.</small></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTOREN ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Sectoren</span>
+      <h2>Waar voel jij je het meest thuis?</h2>
+      <p class="lead mt-s">Bij HappyNurse bepaal jij zelf waar je het liefst werkt. We hebben leuke opdrachten in vier zorgsectoren — door de hele Achterhoek en Liemers.</p>
+    </div>
+    <div class="sectors mt-m">
+      <a class="sector-tile" data-s="VVT" href="vacatures.html?sector=VVT">
+        <div><h3>VVT</h3><p>Verpleeg- &amp; verzorgingshuizen en thuiszorg</p></div>
+        <span class="st-link">Bekijk vacatures <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+        <span class="st-glyph"></span>
+      </a>
+      <a class="sector-tile" data-s="GGZ" href="vacatures.html?sector=GGZ">
+        <div><h3>GGZ</h3><p>Geestelijke gezondheidszorg</p></div>
+        <span class="st-link">Bekijk vacatures <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+        <span class="st-glyph"></span>
+      </a>
+      <a class="sector-tile" data-s="GHZ" href="vacatures.html?sector=GHZ">
+        <div><h3>GHZ</h3><p>Gehandicaptenzorg</p></div>
+        <span class="st-link">Bekijk vacatures <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+        <span class="st-glyph"></span>
+      </a>
+      <a class="sector-tile" data-s="Ziekenhuis" href="vacatures.html?sector=Ziekenhuis">
+        <div><h3>Ziekenhuis</h3><p>Klinische en poliklinische zorg</p></div>
+        <span class="st-link">Bekijk vacatures <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+        <span class="st-glyph"></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VACATURES ===== -->
+<section class="section" style="background:var(--paper-warm); border-block:1px solid var(--line-soft);">
+  <div class="wrap">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;">
+      <div class="section-head">
+        <span class="kicker">Actuele vacatures</span>
+        <h2>Happy aan de slag, dicht bij huis</h2>
+      </div>
+      <a class="btn btn--ghost" href="vacatures.html">Alle vacatures bekijken</a>
+    </div>
+    <div class="grid grid-3 mt-m" id="featuredVacancies"></div>
+  </div>
+</section>
+
+<!-- ===== USP ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="usp-band">
+      <div class="section-head">
+        <span class="kicker" style="color:var(--hn-green)">Waarom HappyNurse Doetinchem</span>
+        <h2>Vier redenen om voor ons te kiezen</h2>
+      </div>
+      <div class="usp-grid">
+        <div class="usp"><span class="num">1</span><h3>Persoonlijk contact</h3><p>Je belt direct met je eigen recruiter — geen callcenter, gewoon iemand die jou en je regio kent.</p></div>
+        <div class="usp"><span class="num">2</span><h3>Lokaal netwerk</h3><p>We kennen de opdrachtgevers in de Achterhoek en Liemers persoonlijk. Werk dus altijd dicht bij huis.</p></div>
+        <div class="usp"><span class="num">3</span><h3>Gratis opleidingen</h3><p>Via HappyCampus blijf je je ontwikkelen — scholing en trainingen zonder extra kosten.</p></div>
+        <div class="usp"><span class="num">4</span><h3>Jij kiest je diensten</h3><p>Via de HappyOne app zie en kies je zelf wanneer en waar je werkt. Vrijheid met zekerheid.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HAPPYCAMPUS ===== -->
+<section class="section" style="background:var(--hn-green-50);">
+  <div class="wrap campus">
+    <div class="ph campus__photo"><span class="ph__label">[ foto: zorgprofessional in training / HappyCampus ]</span></div>
+    <div>
+      <span class="kicker">Gratis opleidingen · HappyCampus</span>
+      <h2 class="mt-s" style="font-size:clamp(1.8rem,3.4vw,2.6rem)">Blijf groeien — wij betalen je ontwikkeling</h2>
+      <p class="lead mt-s">Of je nu je BIG-registratie op peil houdt of een nieuwe specialisatie wilt: via HappyCampus volg je trainingen en e-learnings zonder dat het je een cent kost.</p>
+      <ul class="campus__list">
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>Verplichte scholing &amp; bijscholing volledig vergoed</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>Voorbehouden en risicovolle handelingen op niveau houden</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>E-learnings die je doet wanneer het jóu uitkomt</span></li>
+      </ul>
+      <a class="btn mt-m" href="solliciteren.html">Vraag naar de mogelijkheden</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CLOSER ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="closer">
+      <h2>Klaar om happy aan de slag te gaan?</h2>
+      <p>Geen passende vacature gevonden? Stuur een open sollicitatie. We denken graag met je mee over wat bij jou past — vrijblijvend en zonder gedoe.</p>
+      <div class="hero__cta">
+        <a class="btn btn--white btn--lg" href="solliciteren.html">Open sollicitatie</a>
+        <a class="btn btn--white btn--lg" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.5)" href="tel:+31314760210">Bel direct: 0314 - 76 02 10</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div data-footer></div>
+
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+<script>
+  // Trust strip
+  document.getElementById("heroTrust").innerHTML = [
+    ["Eigen recruiter in de regio", ICON.heart],
+    ["Zelf je diensten kiezen", ICON.clock],
+    ["Gratis opleidingen", ICON.cap],
+  ].map(([t, ic]) => '<span>' + ic + t + '</span>').join("");
+
+  // Featured = first 3 vacancies
+  document.getElementById("featuredVacancies").innerHTML =
+    window.VACANCIES.slice(0, 3).map(vacancyCardHTML).join("");
+</script>
+</body>
+</html>
